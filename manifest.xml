@@ -1,47 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
 
-  <remote name="comet"
-          fetch="https://github.com/comet-cc/" />
+  <remote name="comet" fetch="https://github.com/comet-cc/" />
 
-  <remote name="opencca"
-          fetch="https://github.com/opencca/" />
+  <remote name="opencca" fetch="https://github.com/opencca/" />
  
-  <default remote="comet"
-           revision="main" />
+  <default remote="comet" revision="main" />
 
-  <project name="RMM-CAEC"
-           path="tf-rmm"
-           revision="CAEC" />
+  <project name="RMM-CAEC" path="tf-rmm" revision="CAEC" />
  
-  <project name="debos-fs"
-           path="debos-fs"
+  <project name="debos-fs" path="debos-fs" revision="master" />
+
+  <project name="External-Modules-CAEC" path="External_modules" revision="CAEC" />
+
+  <project name="kvmtool-cca-CAEC" path="kvmtool" revision="CAEC" />
+
+  <project name="opencca-build" path="opencca-build" revision="test" />
+ 
+  <project name="Linux-patches-CAEC" path="linux-patches"
            revision="master" />
 
-  <project name="External-Modules-CAEC"
-           path="External_modules"
-           revision="CAEC" />
+  <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />
 
-  <project name="kvmtool-cca-CAEC"
-           path="kvmtool"
-           revision="CAEC" />
-
-  <project name="opencca-build"
-           path="opencca-build"
-           revision="test" />
- 
-  <project name="Linux-patches-CAEC"
-           path="linux-patches"
-           revision="master" />
-
-  <project name="linux"
-           remote="opencca"
-           path="linux"
-           revision="opencca/rk3588-v5+v7" />
-
-  <project name="linux"
-           remote="opencca"
-           path="linux-guest"
-           revision="opencca/rk3588-v5+v7" />
+  <project name="linux" remote="opencca" path="linux-guest" revision="opencca/rk3588-v5+v7" />
 
 </manifest>

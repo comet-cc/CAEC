@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
-
   <remote name="comet" fetch="https://github.com/comet-cc/" />
-
   <remote name="opencca" fetch="https://github.com/opencca/" />
+  <remote name="github" fetch="ssh://git@github.com/"/>
  
   <default remote="comet" revision="main" />
-
   <project name="RMM-CAEC" path="tf-rmm" revision="CAEC" />
- 
   <project name="debos-fs" path="debos-fs" revision="master" />
-
   <project name="External-Modules-CAEC" path="External_modules" revision="CAEC" />
-
   <project name="kvmtool-cca-CAEC" path="kvmtool" revision="CAEC" />
-
-  <project name="opencca-build" path="opencca-build" revision="test" />
- 
-  <project name="Linux-patches-CAEC" path="linux-patches"
-           revision="master" />
-
+  <project name="Linux-patches-CAEC" path="linux-patches" revision="master" />
+  <project name="opencca-patches" path="opencca-patches" revision="main" />
+  <project name="CAEC" path="CAEC-manifest" revision="main" />
   <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />
-
   <project name="linux" remote="opencca" path="linux-guest" revision="opencca/rk3588-v5+v7" />
+
+  <project name="opencca-build" path="opencca-build" revision="8fe156b2da6edde2c246740624af72f141cc04e5" />
+  <project name="debian-image-recipes" remote="opencca" path="debian-image-recipes" revision="06cf2e55d7b7aaad8da107abcbcf5463dd7b0474" />
+  <project name="opencca-flash" remote="opencca" path="opencca-flash" revision="7889b34eb8d84dbcb6fd44a62f1229ec39c6e4d0" />
+  <project name="arm-trusted-firmware" remote="opencca" path="trusted-firmware-a" revision="opencca/systex25" />
+  <project name="u-boot" path="u-boot" remote="opencca" revision="opencca/systex25" />
+  <project name="rkbin" path="rkbin" remote="opencca" revision="master" />
 
 </manifest>

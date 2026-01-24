@@ -11,13 +11,11 @@
   <project name="kvmtool-cca-CAEC" path="kvmtool" revision="CAEC" />
   <project name="Linux-patches-CAEC" path="linux-patches" revision="master" />
   <project name="opencca-patches" path="opencca-patches" revision="main" />
-  <project name="CAEC" path="CAEC-manifest" revision="main">
-   <copyfile src="patches" dest="patches" />
-  </project>
+  <project name="CAEC" path="CAEC-manifest" revision="main" /> 
   <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />
   <project name="linux" remote="opencca" path="linux-guest" revision="opencca/rk3588-v5+v7" />
 
-  <project name="SinaAb7/opencca-build" remote="github" path="opencca-build" revision="c4cb2f7d281479981e94abf04b85816675952a38" />
+  <project name="SinaAb7/opencca-build" remote="github" path="opencca-build" revision="c086a081660a86f1c168e1f42d413e9243128706" />
   <project name="SinaAb7/opencca-flash" remote="github" path="opencca-flash" 
   revision="50bb2daa7c336b34c3eae0fdb188680062920702" />
   <project name="debian-image-recipes" remote="opencca" path="debian-image-recipes" 

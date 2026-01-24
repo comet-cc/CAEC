@@ -18,6 +18,21 @@ The above commands initializes repositories required to build and reproduce CAEC
 | [OpenCCA-patches](https://github.com/comet-cc/opencca-patches) | Patches of repositories cloned from OpenCCA |
 
 ## Building components
+1) Run prebuild script (update submodules, apply patches, etc):
+```
+./CAEC-manifest/prebuild.sh
 ```
 
+2) Build and start docker container with (Make sure you have the requirements installed as described [here](https://github.com/SinaAb7/opencca-build)):
 ```
+./CAEC-manifest/container.sh
+```
+
+3) Build components (edk2, CCA firmware, host and guest linux, kvmtool, etc) inside the container:
+```
+./opencca-build/scripts/build_all.sh
+```
+
+4) Build the guest and host file systems with:
+
+

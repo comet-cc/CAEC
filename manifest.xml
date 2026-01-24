@@ -17,7 +17,7 @@
   <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />
   <project name="linux" remote="opencca" path="linux-guest" revision="opencca/rk3588-v5+v7" />
 
-  <project name="SinaAb7/opencca-build" path="github" revision="c4cb2f7d281479981e94abf04b85816675952a38" />
+  <project name="SinaAb7/opencca-build" remote="github" path="opencca-build" revision="c4cb2f7d281479981e94abf04b85816675952a38" />
   <project name="SinaAb7/opencca-flash" remote="github" path="opencca-flash" 
   revision="50bb2daa7c336b34c3eae0fdb188680062920702" />
   <project name="debian-image-recipes" remote="opencca" path="debian-image-recipes" 

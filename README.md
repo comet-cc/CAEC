@@ -15,7 +15,7 @@ The above commands initializes repositories required to build and reproduce CAEC
 | [External-Modules-CAEC](https://github.com/comet-cc/External-Modules-CAEC) | External kernel modules supporting CAEC |
 | [kvmtool-cca-CAEC](https://github.com/comet-cc/kvmtool-cca-CAEC) | Lightweight virtual machine manager for realm VMs |
 | [debos-fs](https://github.com/comet-cc/debos-fs) | File system creator for realm VMs |
-| [OpenCCA-patches](https://github.com/comet-cc/opencca-patches) | Patches of repositories cloned from OpenCCA |
+| [OpenCCA-patches](https://github.com/comet-cc/CAEC/tree/main/patches) | Patches of repositories cloned from OpenCCA |
 
 ## Building components
 1) Run prebuild script (update submodules, apply patches, etc):
@@ -34,5 +34,6 @@ The above commands initializes repositories required to build and reproduce CAEC
 ```
 
 4) Build the guest and host file systems with:
-
-
+```
+./CAEC-manifest/build_guest_fs.sh
+```

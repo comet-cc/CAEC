@@ -16,3 +16,4 @@ cd $DIR/../tf-rmm
 git submodule update --init --recursive
 
 mkdir -p $DIR/../snapshot
+mkdir -p $DIR/../debos-fs/ovelay

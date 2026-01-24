@@ -1,17 +1,17 @@
-From 21ae1dcb2d6e5232f809169b8315bc2ab39caeb9 Mon Sep 17 00:00:00 2001
+From a70d9ffb53a7b9326e8b412cc8f512b33ac78765 Mon Sep 17 00:00:00 2001
 From: SinaAb7 <sinaabdollahip@gmail.com>
 Date: Thu, 25 Sep 2025 17:20:00 +0100
-Subject: [PATCH] Enable reserving a range of memory on top of RAM for
+Subject: [PATCH 1/2] Enable reserving a range of memory on top of RAM for
  confidential shared memory. The user must manually enter
  cca_reserve=top,<size> to the commnad line arguments
 
 ---
  arch/arm64/include/asm/cca_reserve_mem.h |   5 +
- arch/arm64/kvm/rme.c                     |   8 +
+ arch/arm64/kvm/rme.c                     |  43 +++
  arch/arm64/mm/Makefile                   |   1 +
  arch/arm64/mm/cca_reserve_mem.c          | 374 +++++++++++++++++++++++
  arch/arm64/mm/init.c                     |   4 +-
- 5 files changed, 391 insertions(+), 1 deletion(-)
+ 5 files changed, 426 insertions(+), 1 deletion(-)
  create mode 100644 arch/arm64/include/asm/cca_reserve_mem.h
  create mode 100644 arch/arm64/mm/cca_reserve_mem.c
 
@@ -27,13 +27,37 @@ index 000000000000..b1725418e948
 +void __init cca_force_reserve_fixed(phys_addr_t start, phys_addr_t size);
 +#endif
 diff --git a/arch/arm64/kvm/rme.c b/arch/arm64/kvm/rme.c
-index 92278d3a2fdb..2f7297676877 100644
+index d8e0a447e0cc..64401b2c5b4f 100644
 --- a/arch/arm64/kvm/rme.c
 +++ b/arch/arm64/kvm/rme.c
-@@ -461,6 +461,14 @@ static int realm_create_apt(struct kvm *kvm, struct apt_params *apt_params_value
- 	apt_params->csdata_ipa_begin = apt_params_value->csdata_ipa_begin;
- 	apt_params->csdata_ipa_end = apt_params_value->csdata_ipa_end;
+@@ -437,6 +437,49 @@ static int realm_create_rd(struct kvm *kvm)
+ 	return r;
+ }
  
++static int realm_create_apt(struct kvm *kvm, struct apt_params *apt_params_value)
++{
++	int r;
++	void *apt = NULL;
++	phys_addr_t apt_phys, rd_phys, apt_param_phys;
++	struct realm *realm = &kvm->arch.realm;
++	struct apt_params *apt_params = (struct apt_params *)get_zeroed_page(GFP_KERNEL);
++	apt = (void *)__get_free_page(GFP_KERNEL);
++	if (!apt)
++		return -ENOMEM;
++
++	apt_phys = virt_to_phys(apt);
++	realm->apt = apt;
++	if (rmi_granule_delegate(apt_phys)) {
++		r = -ENXIO;
++		goto out;
++	}
++	rd_phys = virt_to_phys(realm->rd);
++
++
++	//value to apt
++	apt_params->csdata_ipa_begin = apt_params_value->csdata_ipa_begin;
++	apt_params->csdata_ipa_end = apt_params_value->csdata_ipa_end;
++
 +	apt_params->master_memory.ipa_start = apt_params_value->master_memory.ipa_start;
 +	apt_params->master_memory.map_size = apt_params_value->master_memory.map_size;
 +	apt_params->master_memory.enable = apt_params_value->master_memory.enable;
@@ -42,9 +66,20 @@ index 92278d3a2fdb..2f7297676877 100644
 +	apt_params->slave_memory.map_size = apt_params_value->slave_memory.map_size;
 +	apt_params->slave_memory.enable = apt_params_value->slave_memory.enable;
 +
- 	apt_param_phys = virt_to_phys(apt_params);
- 	if (rmi_apt_create(rd_phys, apt_phys, apt_param_phys)) {
- 		r = -ENXIO;
++	apt_param_phys = virt_to_phys(apt_params);
++	if (rmi_apt_create(rd_phys, apt_phys, apt_param_phys)) {
++		r = -ENXIO;
++		goto out;
++	}
++	return 0;
++out:
++	free_page((unsigned long)apt);
++	return r;
++}
++
+ static int realm_rtt_destroy(struct realm *realm, unsigned long addr,
+ 			     int level, phys_addr_t *rtt_granule,
+ 			     unsigned long *next_addr)
 diff --git a/arch/arm64/mm/Makefile b/arch/arm64/mm/Makefile
 index 2fc8c6dd0407..3f11666f94e7 100644
 --- a/arch/arm64/mm/Makefile

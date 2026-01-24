@@ -22,6 +22,9 @@
   revision="06cf2e55d7b7aaad8da107abcbcf5463dd7b0474" />
   <project name="arm-trusted-firmware" remote="opencca" path="trusted-firmware-a" revision="opencca/systex25" />
   <project name="u-boot" path="u-boot" remote="opencca" revision="opencca/systex25" />
-  <project name="rkbin" path="rkbin" remote="opencca" revision="master" />
+  <project name="rkbin" path="rkbin" remote="opencca" revision="b0c100f1a260d807df450019774993c761beb79d" />
+  <project name="opencca/opencca-assets" path="opencca-assets" remote="github" 
+  revision="f75c95d15e485d8f147ff8fd4cc2f2513ed60131" />
+
 
 </manifest>

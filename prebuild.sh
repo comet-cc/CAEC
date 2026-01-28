@@ -11,9 +11,11 @@ git am ../CAEC-manifest/patches/guest-linux/*.patch
 cd $DIR/../debian-image-recipes
 git am ../CAEC-manifest/patches/debian-image-recipes/*.patch
 
-# Update submodules 
+# Update submodules
 cd $DIR/../tf-rmm
 git submodule update --init --recursive
 
 mkdir -p $DIR/../snapshot
 mkdir -p $DIR/../debos-fs/ovelay
+mkdir -p $DIR/../debian-image-recipes/overlays/CAEC
+mkdir -p $DIR/../debian-image-recipes/overlays/CAEC/VM_image

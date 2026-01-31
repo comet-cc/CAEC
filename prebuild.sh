@@ -15,7 +15,11 @@ git am ../CAEC-manifest/patches/debian-image-recipes/*.patch
 cd $DIR/../tf-rmm
 git submodule update --init --recursive
 
+cd $DIR/../debian-image-recipes
+./download-rockchip-artifacts.sh
+
 mkdir -p $DIR/../snapshot
 mkdir -p $DIR/../debos-fs/ovelay
+mkdir -p $DIR/../debian-image-recipes/out
 mkdir -p $DIR/../debian-image-recipes/overlays/CAEC
 mkdir -p $DIR/../debian-image-recipes/overlays/CAEC/VM_image

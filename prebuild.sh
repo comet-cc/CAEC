@@ -16,7 +16,7 @@ cd $DIR/../tf-rmm
 git submodule update --init --recursive
 
 cd $DIR/../debian-image-recipes
-./download-rockchip-artifacts.sh
+./download-rock5b-artifacts.sh
 
 mkdir -p $DIR/../snapshot
 mkdir -p $DIR/../debos-fs/ovelay

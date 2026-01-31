@@ -6,7 +6,7 @@
  
   <default remote="comet" revision="main" />
   <project name="RMM-CAEC" path="tf-rmm" revision="CAEC" />
-  <project name="debos-fs" path="debos-fs" revision="master" />
+  <project name="debos-fs" path="debos-fs" revision="bb031a5a5c96e71ecc35ea75ff237ba6695aac11" />
   <project name="External-Modules-CAEC" path="External_modules" revision="CAEC" />
   <project name="kvmtool-cca-CAEC" path="kvmtool" revision="CAEC" />
   <project name="Linux-patches-CAEC" path="linux-patches" revision="master" />
@@ -14,7 +14,7 @@
   <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />
   <project name="linux" remote="opencca" path="linux-guest" revision="opencca/rk3588-v5+v7" />
 
-  <project name="SinaAb7/opencca-build" remote="github" path="opencca-build" revision="9eedfe6290251333c6bb6928b5d0ef602dce3571" />
+  <project name="SinaAb7/opencca-build" remote="github" path="opencca-build" revision="a51f4248be83b3dc1a85cb71f341e3a394aa37ca" />
   <project name="SinaAb7/opencca-flash" remote="github" path="opencca-flash" 
   revision="50bb2daa7c336b34c3eae0fdb188680062920702" />
   <project name="debian-image-recipes" remote="opencca" path="debian-image-recipes" 

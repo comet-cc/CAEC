@@ -10,7 +10,6 @@
   <project name="External-Modules-CAEC" path="External_modules" revision="CAEC" />
   <project name="kvmtool-cca-CAEC" path="kvmtool" revision="CAEC" />
   <project name="Linux-patches-CAEC" path="linux-patches" revision="master" />
-  <project name="opencca-patches" path="opencca-patches" revision="main" />
   <project name="CAEC" path="CAEC-manifest" revision="main" /> 
   <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />
   <project name="linux" remote="opencca" path="linux-guest" revision="opencca/rk3588-v5+v7" />

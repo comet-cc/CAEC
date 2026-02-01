@@ -3,15 +3,15 @@ Building components and reproducing the evaluation results of CAEC.
 
 **Requirements**:
 1) An x86 system to build components
-2) Radxa Rock 5B (CAEC's evaluation board)
+2) Radxa Rock 5B (CAEC evaluation board)
 3) Micro SD card (larger than 8 GB) 
 
-## Initializing the associated repositories
+## Initializing repositories
 ```
 repo init -u https://github.com/comet-cc/CAEC.git -m manifest.xml
 repo sync
 ```
-The above commands initialize repositories required to build and reproduce CAEC evaluations. We used [OpenCCA](https://github.com/opencca) as the evaluation platform. The manifest clones OpenCCA repositories to build components and flash the board (Radxa Rock 5B), along with CAEC components provided in the following repositories:
+The above commands initialize repositories required to build and reproduce CAEC evaluation results. We used [OpenCCA](https://github.com/opencca) as the evaluation platform. The manifest clones OpenCCA repositories to build components and flash the board (Radxa Rock 5B), along with CAEC components provided in the following repositories:
 | Repository | Description |
 |-------------|--------------|
 | [RMM-CAEC](https://github.com/comet-cc/RMM-CAEC) | CAEC's Realm Management Monitor (RMM) |
@@ -23,17 +23,17 @@ The above commands initialize repositories required to build and reproduce CAEC 
 | [OpenCCA-patches](https://github.com/comet-cc/CAEC/tree/main/patches) | Patches of repositories cloned from OpenCCA |
 
 ## Building components
-1) Run prebuild script (update submodules, apply patches, etc):
+1) Run the prebuild script (update submodules, apply patches, etc):
 ```
 ./CAEC-manifest/prebuild.sh
 ```
 
-2) Build and start docker container (Make sure you have the requirements installed as described [here](https://github.com/SinaAb7/opencca-build)):
+2) Build and start the Docker container (Make sure you have the requirements installed as described [here](https://github.com/SinaAb7/opencca-build)):
 ```
 ./CAEC-manifest/container.sh
 ```
 
-3) Build components (edk2, CCA firmware, host and guest Linux, kvmtool, etc) inside the container:
+3) Build components (edk2, CCA firmware, host and guest Linux, kvmtool, etc.) inside the container:
 ```
 ./opencca-build/scripts/build_all.sh
 ```
@@ -44,31 +44,32 @@ The above commands initialize repositories required to build and reproduce CAEC 
 ./CAEC-manifest/build_host_fs.sh
 ```
 
-5) SD card preparation: Attach the SD card to the x86 build system.  Find the device name under `/dev` using `lsblk` and run:
+5) SD card preparation: Attach the SD card to the x86 build system. Find the device name under `/dev` using `lsblk` and run:
 ```
 # Run outside of the container 
 ./debian-image-recipes/disk_create.sh [device_name]
 ```
-Insert SD card to the board.
-`Hint:` If the SD card is available at `/dev/sdb`, the device_name is equal to `sdb`. 
+`Hint:` If the SD card is available at `/dev/sdb`, the device_name is `sdb`. 
+
+Insert SD card into the board.
 
 6) Flash the board:
-Hold Maskrom key of the board, plug in the OTG port to the x86 build system, and run:
+Hold the Maskrom key of the board, plug in the OTG port into the x86 build system, and run:
 ```
 # Run outside of the container 
 sudo ./opencca-flash/flash/flash.sh spi
 ```
-The board is now ready. You can follow the guide [here](https://docs.radxa.com/en/rock5/rock5b/radxa-os/serial) to set up a console access to the board.
+The board is now ready. You can follow the guide [here](https://docs.radxa.com/en/rock5/rock5b/radxa-os/serial) to set up console access to the board.
 
-## Reproducing Benchmarks 
+## Reproducing benchmarks 
 
 ### Communication benchmark
-1) Boot two realm VMs in two screen sessions:
+1) Boot two realm VMs in seperate screen sessions:
 ```
 screen -S master
 ./create_realm_VM
 ```
-exit from the current session with `ctrl+a d` 
+exit from the current session with `Ctrl+a d` 
 ```
 screen -S slave
 ./create_realm_VM
@@ -77,14 +78,12 @@ screen -S slave
 ```
 ./slave.sh
 ```
-exit from the current session with `ctrl+a d` 
+exit from the current session with `Ctrl+a d` 
 ```
 screen -r master
 ./master.sh
 ```
 ### Data sharing benchmark
-
-
 
 
 ## Paper

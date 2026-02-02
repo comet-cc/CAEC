@@ -23,3 +23,4 @@ mkdir -p $DIR/../debos-fs/overlay
 mkdir -p $DIR/../debian-image-recipes/out
 mkdir -p $DIR/../debian-image-recipes/overlays/CAEC
 mkdir -p $DIR/../debian-image-recipes/overlays/CAEC/VM_image
+mkdir -p $DIR/../debian-image-recipes/overlays/CAEC/shared_with_VM

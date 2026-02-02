@@ -5,6 +5,7 @@ Building components and reproducing the evaluation results of CAEC.
 1) An x86 system to build components
 2) Radxa Rock 5B (CAEC evaluation board)
 3) Micro SD card (larger than 8 GB) 
+4) USB to TTL Serial Cable 
 
 ## Initializing repositories
 ```
@@ -67,18 +68,18 @@ The board is now ready. You can follow the guide [here](https://docs.radxa.com/e
 1) Boot two realm VMs in seperate screen sessions:
 ```
 screen -S master
-./create_realm_VM
+./master.sh
 ```
 exit from the current session with `Ctrl+a d` 
 ```
 screen -S slave
-./create_realm_VM
+./slave.sh
 ```
-2) Run scripts with each session
+2) Run this script within the slave session
 ```
 ./slave.sh
 ```
-exit from the current session with `Ctrl+a d` 
+3) Exit from the current session with `Ctrl+a d` and run this script within the master session
 ```
 screen -r master
 ./master.sh

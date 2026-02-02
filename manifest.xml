@@ -8,7 +8,7 @@
   <project name="RMM-CAEC" path="tf-rmm" revision="CAEC" />
   <project name="debos-fs" path="debos-fs" revision="bb031a5a5c96e71ecc35ea75ff237ba6695aac11" />
   <project name="External-Modules-CAEC" path="External_modules" revision="CAEC" />
-  <project name="kvmtool-cca-CAEC" path="kvmtool" revision="d56dcd78cacefd5d2f5a609429d8d61ffda0edba" />
+  <project name="kvmtool-cca-CAEC" path="kvmtool" revision="CAEC" />
   <project name="CAEC" path="CAEC-manifest" revision="main" /> 
   <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />
   <project name="linux" remote="opencca" path="linux-guest" revision="opencca/rk3588-v5+v7" />

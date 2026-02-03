@@ -19,6 +19,7 @@ cd $DIR/../debian-image-recipes
 ./download-rock5b-artifacts.sh
 
 mkdir -p $DIR/../snapshot
+mkdir -p $DIR/../tmp
 mkdir -p $DIR/../debos-fs/overlay
 mkdir -p $DIR/../debian-image-recipes/out
 mkdir -p $DIR/../debian-image-recipes/overlays/CAEC

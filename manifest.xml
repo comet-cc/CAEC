@@ -13,7 +13,7 @@
   <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />
   <project name="linux" remote="opencca" path="linux-guest" revision="opencca/rk3588-v5+v7" />
 
-  <project name="SinaAb7/opencca-build" remote="github" path="opencca-build" revision="626eb0b3bda7d4c846e309a11e6f4944ca7641a7" />
+  <project name="SinaAb7/opencca-build" remote="github" path="opencca-build" revision="91150c3f72806a3e7a953fa647d1fea422f2507b" />
   <project name="SinaAb7/opencca-flash" remote="github" path="opencca-flash" 
   revision="50bb2daa7c336b34c3eae0fdb188680062920702" />
   <project name="ggml-org/llama.cpp" remote="github" path="llamacpp" revision="e02b597be3702174e7b47b44cd03e1da1553284b" />

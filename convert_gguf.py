@@ -1,56 +1,44 @@
+import argparse
 import os
 import subprocess
-import argparse
-from huggingface_hub import login
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from huggingface_hub import login, snapshot_download
 
-def convert_model_to_gguf(repo_name, hf_token):
-    # Determine the directory where the script is located
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("repo_name", help="HF repo like TinyLlama/TinyLlama-1.1B-Chat-v1.0")
+    p.add_argument("hf_token", help="HF token")
+    p.add_argument("--llama_cpp_dir", default="../llamacpp", help="Path to llama.cpp")
+    p.add_argument("--outtype", default="q4_k_m", help="Quant type: f16, q4_k_m, q5_0, q8_0, ...")
+    args = p.parse_args()
+
+    # 1) Auth
+    login(token=args.hf_token, add_to_git_credential=True)
+
+    # 2) Download repo locally (Transformers format)
+    local_dir = snapshot_download(repo_id=args.repo_name, token=args.hf_token)
+    repo_dir_name = args.repo_name.split("/")[-1]
+
+    # 3) Convert with llama.cpp script
+    converter = os.path.join(args.llama_cpp_dir, "convert_hf_to_gguf.py")
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    tmp_dir = os.path.abspath(os.path.join(script_dir, "..", "tmp"))
+    os.makedirs(tmp_dir, exist_ok=True)
+    outfile = os.path.join(tmp_dir, f"{repo_dir_name}-{args.outtype}.gguf")
 
-    # Authenticate to Hugging Face
-    login(token=hf_token, add_to_git_credential=True)
-
-    # Derive names for directories and files based on the repository name
-    repo_dir = repo_name.split("/")[-1]
-    save_directory = os.path.join(script_dir, "..", "tmp", f"{repo_dir}_model")
-    output_path = os.path.join(script_dir, "..", "tmp", f"{repo_dir}.gguf")
-
-    # Step 1: Download the model and tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(repo_name, token=hf_token)
-    model = AutoModelForCausalLM.from_pretrained(repo_name, token=hf_token)
-
-    # Step 2: Save the model and tokenizer locally
-    if not os.path.exists(save_directory):
-        os.makedirs(save_directory)
-    tokenizer.save_pretrained(save_directory)
-    model.save_pretrained(save_directory)
-
-    print(f"Model and tokenizer saved locally in {save_directory}.")
-
-    # Step 3: Convert to GGUF format using llama.cpp conversion tool
-    def convert_to_gguf(model_path, output_path):
-        conversion_script = os.path.join(script_dir, "..", "llamacpp", "convert_hf_to_gguf.py")
-
-        result = subprocess.run(
-            ["python3", conversion_script, "--outtype", "q8_0", "--outfile", output_path, "--use-temp-file", model_path],
-            capture_output=True,
-            text=True
-        )
-
-        if result.returncode != 0:
-            print("Conversion failed:", result.stderr)
-        else:
-            print("Conversion succeeded:", result.stdout)
-
-    # Run conversion
-    convert_to_gguf(save_directory, output_path)
-    print(f"Model successfully converted to GGUF format and saved at {output_path}")
+    cmd = [
+        "python3", converter,
+        "--outtype", args.outtype,
+        "--outfile", outfile,
+        "--use-temp-file",
+        local_dir
+    ]
+    print("Running:", " ".join(cmd))
+    res = subprocess.run(cmd, text=True, capture_output=True)
+    if res.returncode != 0:
+        print(res.stderr)
+        raise SystemExit("Conversion failed")
+    print(res.stdout)
+    print(f"Done: {outfile}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Convert a Hugging Face model to GGUF format.")
-    parser.add_argument("repo_name", type=str, help="The Hugging Face repository name (e.g., 'openai-community/gpt2').")
-    parser.add_argument("hf_token", type=str, help="Your Hugging Face token.")
-
-    args = parser.parse_args()
-    convert_model_to_gguf(args.repo_name, args.hf_token)
+    main()

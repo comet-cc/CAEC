@@ -38,14 +38,19 @@ The above commands initialize repositories required to build and reproduce CAEC 
 ```
 ./opencca-build/scripts/build_all.sh
 ```
+4) Download LLM (Optional): Run the following script to download GPT2 (GGUF) from huggingface. You need to provide your huggingface token for authorization.
+```
+./CAEC-manifest/download_model.sh -m openai-community/gpt2 -t [HF_Token]
+```
+You can skip this step if you do not want to run data sharing benchmark.
 
-4) Build the guest and host file systems with:
+5) Build the guest and host file systems with:
 ```
 ./CAEC-manifest/build_guest_fs.sh
 ./CAEC-manifest/build_host_fs.sh
 ```
 
-5) SD card preparation: Attach the SD card to the x86 build system. Find the device name under `/dev` using `lsblk` and run:
+6) SD card preparation: Attach the SD card to the x86 build system. Find the device name under `/dev` using `lsblk` and run:
 ```
 # Run outside of the container 
 ./debian-image-recipes/disk_create.sh [device_name]
@@ -54,7 +59,7 @@ The above commands initialize repositories required to build and reproduce CAEC 
 
 Insert SD card into the board.
 
-6) Flash the board:
+7) Flash the board:
 Hold the Maskrom key of the board, plug in the OTG port into the x86 build system, and run:
 ```
 # Run outside of the container 
@@ -66,26 +71,70 @@ The board is now ready. You can follow the guide [here](https://docs.radxa.com/e
 
 ### Communication benchmark
 1) Boot two realm VMs in seperate screen sessions:
-```
-screen -S master
-./master.sh
-```
-exit from the current session with `Ctrl+a d` 
-```
-screen -S slave
-./slave.sh
-```
-2) Run this script within the slave session
-```
-./slave.sh
-```
-3) Exit from the current session with `Ctrl+a d` and run this script within the master session
-```
-screen -r master
-./master.sh
-```
-### Data sharing benchmark
 
+create a new screen session with `screen -S master`
+```
+./master.sh
+```
+exit from the current session with `Ctrl+a d` and create a new session with `screen -S slave`
+```
+./slave.sh
+```
+2) Run the follwing scripts within the sessions:
+
+exit from the current session with `Ctrl+a d` and log with `screen -r master`, then run:
+```
+./master_caec.sh
+```
+exit from the current session with `Ctrl+a d` and log with `screen -r slave`, then run: 
+```
+./slave_caec.sh
+```
+Now the shared memory is ready to use between two realms. To run each mode of data sharing experiment, you need to run this code on the slave side.
+```
+./shmem_test_[experiment] receiver [device]
+```
+Then, exit from the current session with `Ctrl+a d` and log with `screen -r master`, then run: 
+```
+./shmem_test_[experiment] sender [device]
+```
+[device] choices: 
+`/dev/shmem0_confidential`: Confidential shared memory (CSM) between realms
+`/dev/shmem0_pci`: Normal world shared memory between realms
+
+[experiment] can be: 
+`raw`: No encryption
+`openssl`: Encryption of communication with OpenSSL
+`mbedtls`: Encryption of communication with MbedTLS
+
+### Data sharing benchmark
+1) Boot two realm VMs in seperate screen sessions:
+
+create a new screen session with `screen -S master`
+```
+./master_gpt2.sh
+```
+exit from the current session with `Ctrl+a d` and create a new session with `screen -S slave`
+```
+./slave_gpt2.sh
+```
+2) Run the follwing scripts within the sessions:
+
+exit from the current session with `Ctrl+a d` and log with `screen -r master`, then run:
+```
+# Set the CSM from the master side
+./master_caec.sh
+# Write the model from the disk into the CSM and perform 6 inferences
+./master_write_model_inference.sh
+```
+
+exit from the current session with `Ctrl+a d` and log with `screen -r slave`, then run: 
+```
+# Set the CSM from the slave side
+./slave_caec.sh
+# Inference test
+./slave_inference.sh
+```
 
 ## Paper
 **CAEC: Confidential, Attestable, and Efficient Inter-CVM Communication with Arm CCA**,

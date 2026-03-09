@@ -5,10 +5,10 @@
   <remote name="github" fetch="ssh://git@github.com/"/>
  
   <default remote="comet" revision="main" />
-  <project name="RMM-CAEC" path="tf-rmm" revision="CAEC" />
+  <project name="RMM-CAEC" path="tf-rmm" revision="cf0be957e6367f6da4ca28bdf86bd7c7d84ff97f" />
   <project name="debos-fs" path="debos-fs" revision="bb031a5a5c96e71ecc35ea75ff237ba6695aac11" />
-  <project name="External-Modules-CAEC" path="External_modules" revision="CAEC" />
-  <project name="kvmtool-cca-CAEC" path="kvmtool" revision="CAEC" />
+  <project name="External-Modules-CAEC" path="External_modules" revision="c199064667e30fea460612622afcc535bc2f5cfd" />
+  <project name="kvmtool-cca-CAEC" path="kvmtool" revision="6d41b06fae0752e09f37dca248b6dafbe142311e" />
   <project name="CAEC" path="CAEC-manifest" revision="main" /> 
   <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />
   <project name="linux" remote="opencca" path="linux-guest" revision="opencca/rk3588-v5+v7" />

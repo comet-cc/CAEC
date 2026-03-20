@@ -144,16 +144,21 @@ exit from the current session with `Ctrl+a d` and log with `screen -r slave`, th
 
 ## Paper
 **CAEC: Confidential, Attestable, and Efficient Inter-CVM Communication with Arm CCA**,
-Sina Abdollahi, Amir Al Sadi, Marios Kogias, David Kotz, Hamed Haddadi
-**Conference**
 
-**Abstract** -- 
-The paper can be found [here](https://arxiv.org/pdf/2512.01594).
+Sina Abdollahi, Amir Al Sadi, Marios Kogias, David Kotz, Hamed Haddadi
+
+**11th IEEE European Symposium on Security and Privacy (Euro S&P)**
 
 ## Citation
-
 If you use the code/data in your research, please cite our work as follows:
-**google schoolar link**
+```
+@article{abdollahi2025confidential,
+  title={Confidential, Attestable, and Efficient Inter-CVM Communication with Arm CCA},
+  author={Abdollahi, Sina and Sadi, Amir Al and Kogias, Marios and Kotz, David and Haddadi, Hamed},
+  journal={arXiv preprint arXiv:2512.01594},
+  year={2025}
+}
+```
 
 ## Contact
 In case of questions, please get in touch with [Sina Abdollahi](https://www.imperial.ac.uk/people/s.abdollahi22).

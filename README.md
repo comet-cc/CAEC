@@ -143,11 +143,10 @@ exit from the current session with `Ctrl+a d` and log with `screen -r slave`, th
 ```
 
 ## Paper
-**CAEC: Confidential, Attestable, and Efficient Inter-CVM Communication with Arm CCA**,
-
+**CAEC: Confidential, Attestable, and Efficient Inter-CVM Communication with Arm CCA**
 Sina Abdollahi, Amir Al Sadi, Marios Kogias, David Kotz, Hamed Haddadi
-
-**11th IEEE European Symposium on Security and Privacy (Euro S&P)**
+11th IEEE European Symposium on Security and Privacy (Euro S&P)
+The paper can be found [here](https://arxiv.org/pdf/2512.01594).
 
 ## Citation
 If you use the code/data in your research, please cite our work as follows:

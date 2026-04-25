@@ -40,7 +40,7 @@ The above commands initialize repositories required to build and reproduce CAEC 
 ```
 4) Download LLM (Optional): Run the following script to download GPT2 (GGUF) from huggingface. You need to provide your huggingface token for authorization.
 ```
-# Run outside of the container, you ma need to install some python packages
+# Run outside of the container, you may need to install some python packages
 ./CAEC-manifest/download_model.sh -m openai-community/gpt2 -t [HF_Token]
 ```
 You can skip this step if you do not want to run data sharing benchmark.
@@ -143,7 +143,7 @@ exit from the current session with `Ctrl+a d` and log with `screen -r slave`, th
 ```
 
 ## Paper
-**CAEC: Confidential, Attestable, and Efficient Inter-CVM Communication with Arm CCA**, Sina Abdollahi, Amir Al Sadi, Marios Kogias, David Kotz, Hamed Haddadi, 11th IEEE European Symposium on Security and Privacy (Euro S&P)
+**CAEC: Confidential, Attestable, and Efficient Inter-CVM Communication with Arm CCA**, Sina Abdollahi, Amir Al Sadi, David Kotz, Marios Kogias, Hamed Haddadi, 11th IEEE European Symposium on Security and Privacy (Euro S&P)
 
 The paper can be found [here](https://arxiv.org/pdf/2512.01594).
 
@@ -152,7 +152,7 @@ If you use the code/data in your research, please cite our work as follows:
 ```
 @article{abdollahi2025confidential,
   title={Confidential, Attestable, and Efficient Inter-CVM Communication with Arm CCA},
-  author={Abdollahi, Sina and Sadi, Amir Al and Kogias, Marios and Kotz, David and Haddadi, Hamed},
+  author={Abdollahi, Sina and Sadi, Amir Al and Kotz, David and Kogias, Marios and Haddadi, Hamed},
   journal={arXiv preprint arXiv:2512.01594},
   year={2025}
 }

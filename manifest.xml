@@ -5,9 +5,9 @@
   <remote name="github" fetch="ssh://git@github.com/"/>
  
   <default remote="comet" revision="main" />
-  <project name="RMM-CAEC" path="tf-rmm" revision="500028963f943073f53e8f41b19bfe61837fefab" />
+  <project name="RMM-CAEC" path="tf-rmm" revision="CAEC" />
   <project name="debos-fs" path="debos-fs" revision="bb031a5a5c96e71ecc35ea75ff237ba6695aac11" />
-  <project name="External-Modules-CAEC" path="External_modules" revision="0f82741348db33141778e0c15e2653fcbbd83683" />
+  <project name="External-Modules-CAEC" path="External_modules" revision="CAEC" />
   <project name="kvmtool-cca-CAEC" path="kvmtool" revision="6d41b06fae0752e09f37dca248b6dafbe142311e" />
   <project name="CAEC" path="CAEC-manifest" revision="main" /> 
   <project name="linux" remote="opencca" path="linux" revision="opencca/rk3588-v5+v7" />

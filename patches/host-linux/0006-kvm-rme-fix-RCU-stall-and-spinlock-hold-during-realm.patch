@@ -1,0 +1,81 @@
+From 69c22fad1330e055b0dc37bae5215bf63d74ae5f Mon Sep 17 00:00:00 2001
+From: SinaAb7 <sinaabdollahip@gmail.com>
+Date: Fri, 1 May 2026 19:20:13 +0100
+Subject: [PATCH 1/2] kvm/rme: fix RCU stall and spinlock hold during realm
+ teardown
+
+kvm_free_stage2_pgd() held write_lock(&kvm->mmu_lock) (a spinlock,
+preemption disabled) across the full-IPA DATA_DESTROY scan during realm
+teardown. On large realms this scan takes 50+ seconds, triggering an
+RCU stall and soft-lockup warning. Release the lock before the scan
+since VM teardown is single-threaded at this point (all RECs have exited
+via PSCI_SYSTEM_OFF), so no concurrent stage-2 modifications can occur.
+
+Add kvm_rec_vcpu_enter_exit() as a noinstr wrapper around rmi_rec_enter()
+that brackets the call with guest_state_enter/exit_irqoff() so that RCU's
+extended-quiescent-state accounting remains correct while the CPU is
+inside the RMM.
+---
+ arch/arm64/kvm/mmu.c | 12 ++++++++++--
+ arch/arm64/kvm/rme.c | 14 ++++++++++++--
+ 2 files changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+index 2caff07e4633..5e1e9fa38e8b 100644
+--- a/arch/arm64/kvm/mmu.c
++++ b/arch/arm64/kvm/mmu.c
+@@ -1076,9 +1076,17 @@ void kvm_free_stage2_pgd(struct kvm_s2_mmu *mmu)
+ 	if (kvm_is_realm(kvm) &&
+ 	    (kvm_realm_state(kvm) != REALM_STATE_DEAD &&
+ 	     kvm_realm_state(kvm) != REALM_STATE_NONE)) {
+-		kvm_stage2_unmap_range(mmu, 0, (~0ULL) & PAGE_MASK, true);
++		u32 ia_bits = pgt->ia_bits;
++		/*
++		 * Release mmu_lock before the full-IPA DATA_DESTROY scan.
++		 * VM teardown is single-threaded at this point (all RECs have
++		 * exited), so no concurrent stage-2 modifications can occur.
++		 * Holding the spinlock for the entire scan disables preemption
++		 * for 50+ seconds on large realms, triggering an RCU stall.
++		 */
+ 		write_unlock(&kvm->mmu_lock);
+-		kvm_realm_destroy_rtts(kvm, pgt->ia_bits);
++		kvm_realm_unmap_range(kvm, 0, BIT(ia_bits - 1), true);
++		kvm_realm_destroy_rtts(kvm, ia_bits);
+ 		return;
+ 	}
+ 	if (pgt) {
+diff --git a/arch/arm64/kvm/rme.c b/arch/arm64/kvm/rme.c
+index 1483267f826c..2bcd218834b6 100644
+--- a/arch/arm64/kvm/rme.c
++++ b/arch/arm64/kvm/rme.c
+@@ -1555,6 +1555,17 @@ void kvm_destroy_realm(struct kvm *kvm)
+ 	kvm_free_stage2_pgd(&kvm->arch.mmu);
+ }
+ 
++static int noinstr kvm_rec_vcpu_enter_exit(struct realm_rec *rec)
++{
++	int ret;
++
++	guest_state_enter_irqoff();
++	ret = rmi_rec_enter(virt_to_phys(rec->rec_page),
++			    virt_to_phys(rec->run));
++	guest_state_exit_irqoff();
++	return ret;
++}
++
+ int kvm_rec_enter(struct kvm_vcpu *vcpu)
+ {
+ 	struct realm_rec *rec = &vcpu->arch.rec;
+@@ -1570,8 +1581,7 @@ int kvm_rec_enter(struct kvm_vcpu *vcpu)
+ 	if (kvm_realm_state(vcpu->kvm) != REALM_STATE_ACTIVE)
+ 		return -EINVAL;
+ 
+-	return rmi_rec_enter(virt_to_phys(rec->rec_page),
+-			     virt_to_phys(rec->run));
++	return kvm_rec_vcpu_enter_exit(rec);
+ }
+ 
+ static void free_rec_aux(struct page **aux_pages,
+-- 
+2.34.1
+

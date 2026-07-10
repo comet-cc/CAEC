@@ -3,7 +3,7 @@ Building components and reproducing the evaluation results of CAEC.
 
 **Requirements**:
 1) An x86 system to build components
-2) Radxa Rock 5B (CAEC evaluation board)
+2) Radxa Rock 5B+ (CAEC evaluation board)
 3) Micro SD card (larger than 8 GB) 
 4) USB to TTL Serial Cable 
 
